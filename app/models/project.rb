@@ -1,12 +1,14 @@
-## START: size_methods
 class Project < ApplicationRecord
   include Sizeable
-
-  ## END: size_methods
 
   has_many :tasks, dependent: :destroy
 
   validates :name, presence: true
+
+  def next_task_order
+    return 1 if tasks.empty?
+    (tasks.last.project_order || tasks.size) + 1
+  end
 
   def self.velocity_length_in_days
     21

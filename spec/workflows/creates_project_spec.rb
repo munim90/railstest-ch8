@@ -25,6 +25,18 @@ RSpec.describe CreatesProject do
 
   ## END: failure_test
 
+  ## START: mock_failure
+  describe "mocking a failure" do
+    it "fails when we say it fails" do
+      project = instance_spy(Project, save: false)
+      allow(Project).to receive(:new).and_return(project)
+      creator = CreatesProject.new(name: "Name", task_string: "Task")
+      creator.create
+      expect(creator).not_to be_a_success
+    end
+  end
+  ## END: mock_failure
+
   describe "task string parsing" do
     let(:tasks) { creator.convert_string_to_tasks }
 
